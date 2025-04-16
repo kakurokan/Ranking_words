@@ -6,8 +6,7 @@
 #include <GenericDynvec.h>
 #include <errno.h>
 
-#define MAX_WORD_LENGTH 50                                                         // Capacidade máxima de uma palavra
-#define BOOK_PATH "/home/kakurokan/LP_Projetos/Projeto2_curriculo/padre_amaro.txt" // Caminho do livro à ser lido
+#define MAX_WORD_LENGTH 50 // Capacidade máxima de uma palavra
 
 // Estrura auxiliar para contar as aparições de cada palavra
 typedef struct Word
@@ -35,11 +34,15 @@ int main()
     int n;
     if (scanf("%d", &n) != 1) // Lê quantas palavras o usuário quer e guarda na variável 'n'
         return -1;
+
+    char book_path[200]; // Guarda o caminho do livro à ser lido
+    if (scanf("%199s", book_path) != 1)
+        return -1;
     getchar(); // Consome o '\n' deixado no buffer
 
     dynvec *vec_input = dynvec_create(sizeof(char) * MAX_WORD_LENGTH); // Vetor para guardar todas as palavras lidas no arquivo
 
-    FILE *file = fopen(BOOK_PATH, "r"); // Variável para guardar o arquivo.
+    FILE *file = fopen(book_path, "r"); // Variável para guardar o arquivo.
     if (!file)
     {
         perror("Error opening file"); // Emite um erro caso não seja possível ler o arquivo
