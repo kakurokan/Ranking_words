@@ -399,6 +399,17 @@ void quicksort_dynvec_three_way(dynvec *vec, int (*cmp)(const void *, const void
 static void merge(dynvec *vec, int (*cmp)(const void *, const void *), size_t left, size_t right, size_t mid, void *temp)
 {
     size_t i = left, j = mid;
+
+    if (cmp((char *)(temp) + (j - 1) * vec->elem_size, (char *)(temp) + j * vec->elem_size) < 0) // Já está ordenado
+        return;
+
+    else if (cmp((char *)(temp) + i * vec->elem_size, (char *)(temp) + (right - 1) * vec->elem_size) > 0)
+    {
+        memcpy((char *)(vec->data) + left * vec->elem_size, (char *)(temp) + j * vec->elem_size, (right - j) * vec->elem_size);
+        memcpy((char *)(vec->data) + (left + (right - j)) * vec->elem_size, (char *)(temp) + i * vec->elem_size, (j - i) * vec->elem_size);
+        return;
+    }
+
     for (size_t k = left; k < right; k++)
     {
         void *elem1 = (char *)temp + i * vec->elem_size;
